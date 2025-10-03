@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🌠星空 StarrySky [FiveM] — Winter Collection Coming Soon</title>
+  <meta name="color-scheme" content="dark" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <!-- Font Awesome (icons only, no external JS) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-oq6Q3q1g1KXvJt2G3QyQkq9l3h8d3dB2Y2gQxw2j6yQH5s9mYw2U0iE+3QOqP8h+eQpQ2o5JQ4bO1F3r2gJQZg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    :root {
+      --bg-0: #07040e;
+      --bg-1: #0c0718;
+      --bg-2: #120b24;
+      --card: rgba(18, 11, 36, 0.6);
+      --text: #e9e6ff;
+      --muted: #b8a6ff;
+      --neon: #a855f7;
+      --neon-2: #7c3aed;
+      --accent: #06d6a0; /* winter mint accent */
+      --accent-2: #118ab2;
+      --success: #22c55e;
+      --shadow-neon: 0 0 24px rgba(168, 85, 247, 0.35), 0 0 56px rgba(124, 58, 237, 0.25);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+      background: radial-gradient(1200px 800px at 10% 10%, rgba(168, 85, 247, 0.15), transparent 60%),
+                  radial-gradient(1000px 900px at 90% 20%, rgba(34, 211, 238, 0.14), transparent 55%),
+                  radial-gradient(800px 700px at 50% 120%, rgba(124, 58, 237, 0.18), transparent 60%),
+                  linear-gradient(180deg, var(--bg-0), var(--bg-1) 40%, var(--bg-2));
+      background-attachment: fixed;
+    }
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/></filter><rect width="200" height="200" filter="url(%23n)" opacity="0.035"/></svg>');
+      opacity: 0.35;
+      mix-blend-mode: soft-light;
+    }
+
+    .grid-lines {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(rgba(168, 85, 247, 0.08) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(168, 85, 247, 0.08) 1px, transparent 1px);
+      background-size: 28px 28px, 28px 28px;
+      mask-image: radial-gradient(ellipse at 50% 40%, black 0%, transparent 70%);
+    }
+
+    /* Lightweight, GPU-friendly visuals */
+    .aurora {
+      position: fixed;
+      inset: -10% -10% -10% -10%;
+      pointer-events: none;
+      z-index: -1;
+      background:
+        radial-gradient(60% 80% at 20% 30%, rgba(124,58,237,0.25), transparent 60%),
+        radial-gradient(70% 90% at 80% 20%, rgba(34,211,238,0.18), transparent 60%),
+        radial-gradient(50% 70% at 50% 100%, rgba(168,85,247,0.20), transparent 60%);
+      filter: blur(30px) saturate(120%);
+      animation: aurora-shift 24s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+    @keyframes aurora-shift {
+      0% { transform: translate3d(0,0,0) scale(1); }
+      50% { transform: translate3d(2%, -1%, 0) scale(1.03); }
+      100% { transform: translate3d(-2%, 1%, 0) scale(1.05); }
+    }
+
+    /* Winter snow particles - CSS only */
+    .snow {
+      position: fixed;
+      inset: -10%;
+      pointer-events: none;
+      z-index: -1;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.4) 1px, transparent 1px),
+        radial-gradient(circle at 50% 40%, rgba(255,255,255,0.3) 1px, transparent 1px),
+        radial-gradient(circle at 80% 10%, rgba(255,255,255,0.5) 1px, transparent 1px),
+        radial-gradient(circle at 15% 70%, rgba(255,255,255,0.3) 1px, transparent 1px),
+        radial-gradient(circle at 90% 60%, rgba(255,255,255,0.4) 1px, transparent 1px),
+        radial-gradient(circle at 40% 90%, rgba(255,255,255,0.3) 1px, transparent 1px);
+      background-size: 150px 180px, 220px 200px, 180px 160px, 200px 220px, 160px 180px, 240px 200px;
+      animation: snow-fall 20s linear infinite;
+      will-change: transform;
+    }
+    @keyframes snow-fall {
+      from { transform: translateY(-100vh) translateX(0); }
+      to   { transform: translateY(100vh) translateX(50px); }
+    }
+
+    .twinkles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,0.08) 1px, transparent 2px),
+        radial-gradient(circle at 80% 30%, rgba(255,255,255,0.06) 1px, transparent 2px),
+        radial-gradient(circle at 30% 70%, rgba(255,255,255,0.07) 1px, transparent 2px),
+        radial-gradient(circle at 70% 80%, rgba(255,255,255,0.05) 1px, transparent 2px);
+      background-size: 200px 200px, 240px 240px, 220px 220px, 260px 260px;
+      animation: twinkle-move 18s linear infinite, twinkle-fade 6s ease-in-out infinite alternate;
+    }
+    @keyframes twinkle-move {
+      from { background-position: 0 0, 40px 0, 0 30px, -30px 0; }
+      to   { background-position: 200px 120px, 280px 120px, 220px 140px, 260px 160px; }
+    }
+    @keyframes twinkle-fade {
+      from { opacity: 0.35; }
+      to   { opacity: 0.55; }
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: saturate(140%) blur(10px);
+      background: linear-gradient(to right, rgba(10, 6, 22, 0.65), rgba(10, 6, 22, 0.25));
+      border-bottom: 1px solid rgba(168, 85, 247, 0.25);
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      letter-spacing: 0.5px;
+    }
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: radial-gradient(circle at 30% 30%, var(--neon), transparent 60%),
+                  radial-gradient(circle at 70% 70%, var(--accent), transparent 60%),
+                  linear-gradient(135deg, rgba(255,255,255,0.12), rgba(0,0,0,0.05));
+      box-shadow: var(--shadow-neon);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+    .logo-img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.6)); }
+    h1 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+    .subtitle {
+      margin: 4px 0 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.3px;
+    }
+
+    main .container { padding-top: 28px; padding-bottom: 48px; }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+    .hero-title {
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1.2;
+      text-shadow: 0 0 24px rgba(124, 58, 237, 0.4);
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      border-radius: 999px;
+      color: var(--muted);
+      background: linear-gradient(180deg, rgba(124, 58, 237, 0.16), rgba(124, 58, 237, 0.06));
+      box-shadow: var(--shadow-neon);
+      font-size: 12px;
+      width: fit-content;
+    }
+
+    .hero-actions { display: flex; gap: 10px; align-items: center; }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      color: var(--text);
+      text-decoration: none;
+      background: linear-gradient(180deg, rgba(124, 58, 237, 0.08), rgba(124, 58, 237, 0.02));
+      border: 1px solid rgba(168, 85, 247, 0.5);
+      box-shadow: 0 0 18px rgba(168, 85, 247, 0.25);
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      transition: transform 160ms ease, box-shadow 160ms ease;
+    }
+    .btn-outline:hover { transform: translateY(-2px); box-shadow: 0 0 28px rgba(168, 85, 247, 0.4); }
+
+    .announcement {
+      margin: 8px 0 2px 0;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      background: linear-gradient(180deg, rgba(124, 58, 237, 0.12), rgba(124, 58, 237, 0.06));
+      color: var(--text);
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: var(--shadow-neon);
+    }
+    .announcement a { color: var(--text); text-decoration: none; }
+
+    /* Music player */
+    .music-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 50;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.8), rgba(124, 58, 237, 0.8));
+      border: 2px solid rgba(168, 85, 247, 0.6);
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+    .music-toggle:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.8);
+    }
+    .music-toggle.playing {
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.8), rgba(251, 146, 60, 0.8));
+      border-color: rgba(249, 115, 22, 0.6);
+    }
+    .music-toggle.playing:hover {
+      box-shadow: 0 0 20px rgba(249, 115, 22, 0.8);
+    }
+    
+    #ytPlayer {
+      position: absolute;
+      top: -9999px;
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    /* Top Right Mute Button Only */
+    .music-controls {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    /* Remove unused volume control styles */
+    
+    .mute-btn {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.8), rgba(124, 58, 237, 0.8));
+      border: 2px solid rgba(168, 85, 247, 0.6);
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 50%;
+      font-size: 16px;
+      transition: all 160ms ease;
+      backdrop-filter: blur(10px);
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .mute-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.8);
+    }
+    
+    .mute-btn.muted {
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.8), rgba(251, 146, 60, 0.8));
+      border-color: rgba(249, 115, 22, 0.6);
+      opacity: 0.7;
+    }
+    
+    
+    .custom-mute-icon {
+      width: 16px;
+      height: 16px;
+      filter: drop-shadow(0 0 4px rgba(168, 85, 247, 0.6));
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    @media (max-width: 980px) {
+      .cards { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .cards { grid-template-columns: 1fr; }
+      .hero-title { font-size: 24px; }
+    }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      border: 1px solid rgba(168, 85, 247, 0.28);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.35), var(--shadow-neon);
+      transition: transform 240ms ease, box-shadow 240ms ease, border-color 240ms ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(168, 85, 247, 0.6);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.45), 0 0 42px rgba(168, 85, 247, 0.32);
+    }
+
+    .media {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      background: radial-gradient(circle at 20% 30%, rgba(168, 85, 247, 0.25), transparent 50%),
+                  radial-gradient(circle at 80% 70%, rgba(34, 211, 238, 0.2), transparent 55%),
+                  linear-gradient(145deg, #0f0a1f 20%, #140e2d 80%);
+      display: grid;
+      place-items: center;
+      border-bottom: 1px solid rgba(168, 85, 247, 0.25);
+    }
+    .media::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: conic-gradient(from 0deg, rgba(168, 85, 247, 0.15), rgba(124, 58, 237, 0.06), transparent 30%, transparent 70%, rgba(34, 211, 238, 0.12));
+      filter: blur(28px);
+      transform: rotate(8deg);
+      pointer-events: none;
+    }
+    .placeholder-img {
+      width: 82%;
+      height: 58%;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      border: 1px dashed rgba(168, 85, 247, 0.45);
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      font-weight: 600;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      text-shadow: 0 0 16px rgba(168, 85, 247, 0.4);
+    }
+
+    .content {
+      padding: 16px;
+      display: grid;
+      gap: 10px;
+    }
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .name {
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .price {
+      font-size: 14px;
+      color: var(--accent);
+      font-weight: 700;
+      text-shadow: 0 0 10px rgba(34, 211, 238, 0.45);
+    }
+    .meta {
+      display: flex;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .actions {
+      margin-top: 6px;
+    }
+    .btn {
+      appearance: none;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      color: white;
+      background: radial-gradient(120% 120% at 10% 10%, rgba(168, 85, 247, 0.4), transparent 60%),
+                  linear-gradient(180deg, var(--neon), var(--neon-2));
+      box-shadow: 0 6px 18px rgba(124, 58, 237, 0.45), inset 0 0 18px rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(168, 85, 247, 0.6);
+      transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+    }
+    .btn i { margin-right: 8px; }
+    .btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+      box-shadow: 0 10px 26px rgba(124, 58, 237, 0.55), 0 0 26px rgba(168, 85, 247, 0.45);
+    }
+    .btn:active { transform: translateY(0); }
+
+    footer {
+      margin-top: 40px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(168, 85, 247, 0.18);
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+    }
+    /* Background animation removed for performance */
+  </style>
+</head>
+  <body>
+  <!-- Top Right Mute Button Only -->
+  <div class="music-controls">
+    <button class="mute-btn" id="muteBtn" aria-label="Mute/Unmute">
+      <img src="mute.png" class="custom-mute-icon" alt="Mute" />
+    </button>
+  </div>
+  
+  <!-- YouTube Music Player (hidden) -->
+  <div id="ytPlayer"></div>
+
+
+  <div class="aurora"></div>
+  <div class="snow"></div>
+  <div class="twinkles"></div>
+  <div class="noise"></div>
+  <div class="grid-lines"></div>
+
+  <header>
+    <div class="container">
+      <div class="brand">
+        <div class="logo" aria-label="Brand logo">
+          <img class="logo-img" src="logo.png" alt="StarrySky logo" onerror="this.style.display='none'">
+        </div>
+        <div>
+          <h1>🌠星空 StarrySky [FiveM]</h1>
+          <p class="subtitle">Winter Collection Coming Soon • Frosty rides preview • Full catalog on Discord</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="hero">
+        <span class="hero-badge"><i class="fa-solid fa-snowflake"></i> Haloween Preview</span>
+        <div class="hero-title">Shadow's touch. Nocturnal design. From beyond the veil.</div>
+        <div class="hero-actions">
+          <a class="btn-outline" href="https://discord.gg/FhPCKaZVBB" target="_blank" rel="noopener">
+            <i class="fa-brands fa-discord"></i> Browse full catalog on Discord
+          </a>
+        </div>
+        <div class="announcement">
+          <span><strong>Note:</strong> Haloween-themed cars preview here. Winter collection launches December 15th. Halloween cars release February 2025 after Christmas collection.</span>
+          <a href="https://discord.gg/FhPCKaZVBB" target="_blank" rel="noopener"><i class="fa-brands fa-discord"></i> Join now</a>
+        </div>
+      </div>
+
+      <section class="cards" aria-label="Vehicle selection">
+        <article class="card">
+          <div class="media">
+            <div class="placeholder-img">Car Image</div>
+          </div>
+          <div class="content">
+            <div class="row">
+              <div class="name">Frostbite R</div>
+              <div class="price">$285,000</div>
+            </div>
+            <div class="meta">
+              <span><i class="fa-solid fa-snowflake"></i> Winter</span>
+              <span><i class="fa-solid fa-thermometer-empty"></i> Cold Ready</span>
+            </div>
+            <div class="actions">
+              <button class="btn buy-btn" data-discord-url="https://discord.gg/FhPCKaZVBB">
+                <i class="fa-brands fa-discord"></i> Buy via Discord
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="media">
+            <div class="placeholder-img">Car Image</div>
+          </div>
+          <div class="content">
+            <div class="row">
+              <div class="name">Blizzard S</div>
+              <div class="price">$195,000</div>
+            </div>
+            <div class="meta">
+              <span><i class="fa-solid fa-icicles"></i> Ice Glide</span>
+              <span><i class="fa-solid fa-snowflake"></i> Premium</span>
+            </div>
+            <div class="actions">
+              <button class="btn buy-btn" data-discord-url="https://discord.gg/FhPCKaZVBB">
+                <i class="fa-brands fa-discord"></i> Buy via Discord
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="media">
+            <div class="placeholder-img">Car Image</div>
+          </div>
+          <div class="content">
+            <div class="row">
+              <div class="name">Crystal X</div>
+              <div class="price">$125,000</div>
+            </div>
+            <div class="meta">
+              <span><i class="fa-solid fa-gem"></i> Luxury</span>
+              <span><i class="fa-solid fa-snowman"></i> Special</span>
+            </div>
+            <div class="actions">
+              <button class="btn buy-btn" data-discord-url="https://discord.gg/FhPCKaZVBB">
+                <i class="fa-brands fa-discord"></i> Buy via Discord
+              </button>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <footer>
+        Winter Collection Preview • Launch date: December 15th, 2024
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    // YouTube API Music Player
+    let player;
+    let isPlaying = false;
+    let isMuted = false;
+    let progressUpdateInterval;
+    
+    // YouTube API script loader
+    function loadYouTubeAPI() {
+      if (window.YT && window.YT.Player) {
+        initPlayer();
+        return;
+      }
+      
+      const script = document.createElement('script');
+      script.src = 'https://www.youtube.com/iframe_api';
+      script.onload = () => {
+        window.onYouTubeIframeAPIReady = initPlayer;
+      };
+      document.head.appendChild(script);
+    }
+    
+    function initPlayer() {
+      // Single live/long video provided by you
+      const videoId = 'U_3epvJU8BI';
+
+      player = new YT.Player('ytPlayer', {
+        width: 0,
+        height: 0,
+        videoId: videoId,
+        playerVars: {
+          autoplay: 1,
+          controls: 0,
+          modestbranding: 1,
+          rel: 0,
+          showinfo: 0,
+          iv_load_policy: 3,
+          playsinline: 1,
+          mute: 0
+        },
+        events: {
+          onReady: onPlayerReady,
+          onStateChange: onPlayerStateChange
+        }
+      });
+    }
+    
+    function onPlayerReady(event) {
+      console.log('YouTube player ready');
+      
+      // Auto-start playing
+      event.target.playVideo();
+      isPlaying = true;
+      
+      // Set initial volume
+      setVolume(70);
+    }
+    
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.PLAYING) {
+        isPlaying = true;
+        startProgressUpdate();
+      } else {
+        isPlaying = false;
+        stopProgressUpdate();
+      }
+    }
+    
+    function startProgressUpdate() {
+      progressUpdateInterval = setInterval(() => {
+        if (player && isPlaying) {
+          const currentTime = player.getCurrentTime();
+          const duration = player.getDuration();
+          const progress = (currentTime / duration) * 100;
+          
+          document.getElementById('progressSlider').value = progress;
+          document.getElementById('timeDisplay').textContent = formatTime(currentTime);
+        }
+      }, 1000);
+    }
+    
+    function stopProgressUpdate() {
+      if (progressUpdateInterval) {
+        clearInterval(progressUpdateInterval);
+      }
+    }
+    
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+    
+    // Music auto-plays, no toggle function needed
+    
+    // For testing - you can also play single videos instead of playlists
+    function loadSingleVideo(videoId) {
+      if (player) {
+        player.loadVideoById(videoId);
+      }
+    }
+    
+    // Example winter ambient videos (uncomment to use specific videos instead of playlist):
+    // loadSingleVideo('dg0rGjzKVwg'); // Winter storm sounds
+    // loadSingleVideo('b2xEG9g7HkE'); // Christmas fireplace
+    // loadSingleVideo('aJ6WR4h0_0w'); // Cozy cabin ambience
+    
+    // Volume control functions
+    function setVolume(level) {
+      if (player && !isMuted) {
+        player.setVolume(level);
+      }
+    }
+    
+    function toggleMute() {
+      if (!player) return;
+      
+      isMuted = !isMuted;
+      const muteBtn = document.getElementById('muteBtn');
+      const muteIcon = muteBtn.querySelector('img');
+      
+      if (isMuted) {
+        player.mute();
+        muteBtn.classList.add('muted');
+        muteBtn.style.opacity = '0.5';
+      } else {
+        player.unMute();
+        muteBtn.classList.remove('muted');
+        muteBtn.style.opacity = '1';
+        setVolume(document.getElementById('volumeSlider').value);
+      }
+    }
+    
+    function seekForward() {
+      if (player) {
+        const currentTime = player.getCurrentTime();
+        player.seekTo(currentTime + 10, true);
+      }
+    }
+    
+    function seekRewind() {
+      if (player) {
+        const currentTime = player.getCurrentTime();
+        player.seekTo(currentTime - 10, true);
+      }
+    }
+    
+    function seekTo(pos) {
+      if (player) {
+        const duration = player.getDuration();
+        const seekTime = (pos / 100) * duration;
+        player.seekTo(seekTime, true);
+      }
+    }
+    
+    // Event listeners - only mute button
+    const muteBtn = document.getElementById('muteBtn');
+    
+    muteBtn.addEventListener('click', toggleMute);
+    
+    // Load YouTube API when page loads
+    loadYouTubeAPI();
+
+    // Discord button functionality
+    function openDiscord(url) {
+      if (!url || url === '#' || url.includes('yourserver')) {
+        alert('Configure your Discord ticket link by editing data-discord-url on the button.');
+        return;
+      }
+      const win = window.open(url, '_blank', 'noopener');
+      if (win) { win.opener = null; }
+    }
+
+    document.addEventListener('click', function(e) {
+      const btn = e.target.closest('.buy-btn');
+      if (!btn) return;
+      const url = btn.getAttribute('data-discord-url') || '#';
+      openDiscord(url);
+    });
+  </script>
+</body>
+</html>
+
+
