@@ -123,17 +123,19 @@
     }
 
     header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      backdrop-filter: saturate(140%) blur(10px);
-      background: linear-gradient(to right, rgba(10, 6, 22, 0.65), rgba(10, 6, 22, 0.25));
-      border-bottom: 1px solid rgba(168, 85, 247, 0.25);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: saturate(140%) blur(10px);
+  background: linear-gradient(to right, rgba(10, 6, 22, 0.65), rgba(10, 6, 22, 0.25));
+  border-bottom: 1px solid rgba(168, 85, 247, 0.25);
+  padding-top: 6px;
+  padding-bottom: 6px;
     }
     .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px 20px;
     }
     .brand {
       display: flex;
@@ -466,9 +468,7 @@
   <header>
     <div class="container">
       <div class="brand">
-        <div class="logo" aria-label="Brand logo">
-          <img class="logo-img" src="logo.png" alt="StarrySky logo" onerror="this.style.display='none'">
-        </div>
+  <img class="logo-img" src="logo.gif" alt="StarrySky logo" style="width:90px;height:90px;object-fit:contain;" onerror="this.style.display='none'">
         <div>
           <h1>🌠星空 StarrySky [FiveM]</h1>
           <p class="subtitle">Winter Collection Coming Soon • Frosty rides preview • Full catalog on Discord</p>
